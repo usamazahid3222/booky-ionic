@@ -24,18 +24,18 @@ export class BooksPage implements OnInit {
     this.getAll();
   }
 
-  getAll() {
+  async getAll() {
     this.loading = true;
 
-    this.booksService.getAllBooks().subscribe(
+    const observable = await this.booksService.getAllBooks();
+    observable.subscribe(
       data => {
-        console.log('got response from server', data);
-        this.loading = false;
         this.books = data.data.docs;
-      },
-      error => {
         this.loading = false;
-        console.log('error', error);
+        console.log('data', data);
+      },
+      err => {
+        console.log('err', err);
       }
     );
   }
@@ -85,9 +85,13 @@ export class BooksPage implements OnInit {
     await alert.present();
   }
 
-  deleteBook() {
+  async deleteBook() {
     this.deleteLoading = true;
-    this.booksService.deleteBook(this.selectedBook._id).subscribe(
+    const observable = await this.booksService.deleteBook(
+      this.selectedBook._id
+    );
+
+    observable.subscribe(
       data => {
         console.log('got response from server', data);
         this.deleteLoading = false;
@@ -99,9 +103,7 @@ export class BooksPage implements OnInit {
       }
     );
   }
-
-
-}
+  }
 
 
 // Intefacing is Optional

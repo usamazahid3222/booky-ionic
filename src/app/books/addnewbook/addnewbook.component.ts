@@ -40,8 +40,12 @@ export class AddnewbookComponent implements OnInit {
     });
   }
 
-  addNew(){
-    this.booksService.addNewBook(this.addNewBookForm.value).subscribe(
+
+  async addNew() {
+    const observable = await this.booksService.addNewBook(
+      this.addNewBookForm.value
+    );
+    observable.subscribe(
       async data => {
         console.log('got response from server', data);
         const name = this.addNewBookForm.controls['name'].value;
@@ -62,7 +66,58 @@ export class AddnewbookComponent implements OnInit {
       }
     );
   }
-  updateBook(){
+  
+  /*addNew(){
+    this.booksService.addNewBook(this.addNewBookForm.value).subscribe(
+      async data => {
+        console.log('got response from server', data);
+        const name = this.addNewBookForm.controls['name'].value;
+        const toast = await this.toastController.create({
+          message: `${name} has been added successfully.`,
+          duration: 3500
+        });
+        toast.present();
+        this.loading = false;
+        this.addNewBookForm.reset();
+        // optional
+
+        this.modalCtrl.dismiss();
+      },
+      error => {
+        this.loading = false;
+        console.log('error', error);
+      }
+    );
+  }*/
+
+  async updateBook() {
+    const observable = await this.booksService.updateBook(
+      this.addNewBookForm.value
+    );
+
+    observable.subscribe(
+      async data => {
+        console.log('got response from server', data);
+        const name = this.addNewBookForm.controls['name'].value;
+        const toast = await this.toastController.create({
+          message: `${name} has been updated successfully.`,
+          duration: 3500
+        });
+        toast.present();
+        this.loading = false;
+        this.addNewBookForm.reset();
+        // optional
+
+        this.modalCtrl.dismiss();
+      },
+      error => {
+        this.loading = false;
+        console.log('error', error);
+      }
+    );
+  }
+
+  /*updateBook(){
     this.booksService.updateBook(this.addNewBookForm.value).subscribe(
       async data => {
         console.log('got response from server', data);
@@ -83,7 +138,7 @@ export class AddnewbookComponent implements OnInit {
         console.log('error', error);
       }
     );
-  }
+  }*/
 
 
   save() {

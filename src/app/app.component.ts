@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from 'src/sdk/core/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -17,22 +18,21 @@ export class AppComponent {
       icon: 'home'
     },
     {
-      title: 'Login',
-      url: '/login',
-      icon: 'people'
+      title: 'Books',
+      url: '/books',
+      icon: 'book'
     },
     {
-      title: 'Register New User',
-      url: '/register',
-      icon: 'add'
-    },
-
+      title: 'Logout',
+      icon: 'power'
+    }
   ];
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar
+    private statusBar: StatusBar,
+    private authService: AuthService
   ) {
     this.initializeApp();
   }
@@ -42,5 +42,9 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }
